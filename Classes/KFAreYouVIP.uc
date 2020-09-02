@@ -29,6 +29,8 @@ struct VipPlayer
   var config string PID; // Steam ID, will always be checked
   var config Color Color; // RGBA values, custom for any player
 };
+// TO-DO Add one more to show players as Donator, either a new list or just 1 more variable
+// in the struct
 var() config array<VipPlayer> PlayersAsVIP; // VIP list
 
 function PostBeginPlay()
@@ -44,6 +46,7 @@ function PostBeginPlay()
   SetTimer( 1, false);
 }
 
+// TO-DO Complete this
 /*static function FillPlayInfo(PlayInfo PlayInfo)
 {
   Super.FillPlayInfo(PlayInfo);
@@ -74,6 +77,8 @@ simulated function MutLog(string s)
   log(s, 'AreYouVIP');
 }
 
+// To-DO Research how to detect Login events, or player join event
+// to trigger the timer
 function Timer()
 {
   local array<string> PlayerIDs;
@@ -82,6 +87,7 @@ function Timer()
   tmpMSG = VIP;
   SetColor(tmpMSG);
   GetPlayerIDs( tmpMSG , PlayerIDs );
+  // TO-DO Add support for the config variable PlayersAsVIP
 }
 
 function array<string> GetPlayerIDs(string VipText, out array<string> PlayerIDs){
@@ -100,9 +106,9 @@ function array<string> GetPlayerIDs(string VipText, out array<string> PlayerIDs)
         SetColor(VipText);
         NewName $= PN;
         NewName $= VipText;
-        MutLog("-----|| DEBUG - VipText: " $VipText$ " ||-----");
         PC.PlayerReplicationInfo.SetPlayerName(NewName);
         if(DEBUG){
+            MutLog("-----|| DEBUG - VipText: " $VipText$ " ||-----");
             MutLog("-----|| DEBUG - Player [" $i$ "] Name: " $PN$ " | ID: " $PID$ " | New Name: " $NewName$ " ||-----");
         }
     }
