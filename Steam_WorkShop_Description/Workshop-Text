@@ -1,0 +1,58 @@
+Mark players as VIP (or Donators) in your server. Shows next to their names in the Scoreboard!
+
+- Customizable VIP Text
+- Customizable VIP Text Colors
+
+&
+
+- Mut is [b]WHITELISTED[/b] (On Dedicated Servers | Listen Server is probably whitelisted for everyone except the Host)
+
+NOTE:
+
+- NikC for some parts of the code
+
+[h1][b][u]Number Of Files[/u][/b][/h1]
+
+- 3
+
+[h1][b][u]Sample Config[/u][/b][/h1]
+
+[code]
+[KFAreYouVIP.KFAreYouVIP]
+# Replace %g %w with any other color you want from the list below
+sVIP=%w - [%gVIP%w]
+# Better to keep debugging False :)
+bDebug=True
+# Add VIP or Donator players here, follow the exact format | Color is for the Player Name, not the VIP text
+PlayersAsVIP=(PName="Vel-San",PID="20b300195d48c2ccc2651885cfea1a2f",Color=(B=0,G=0,R=200,A=0))
+# You can add more colors by using the same format of the below ColorList
+ColorList=(ColorName="Red",ColorTag="%r",Color=(B=0,G=0,R=200,A=0))
+ColorList=(ColorName="Orange",ColorTag="%o",Color=(B=0,G=127,R=255,A=0))
+ColorList=(ColorName="Yellow",ColorTag="%y",Color=(B=0,G=255,R=255,A=0))
+ColorList=(ColorName="Green",ColorTag="%g",Color=(B=0,G=200,R=0,A=0))
+ColorList=(ColorName="Blue",ColorTag="%b",Color=(B=200,G=100,R=0,A=0))
+ColorList=(ColorName="Violet",ColorTag="%v",Color=(B=139,G=0,R=255,A=0))
+ColorList=(ColorName="White",ColorTag="%w",Color=(B=200,G=200,R=200,A=0))
+[/code]
+
+[h1][b][u]File Names[/u][/b][/h1]
+
+- \System\KFAreYouVIP.u
+- \System\KFAreYouVIP.ucl
+- \System\KFAreYouVIP.ini
+
+[h1][b][u]Usage[/u][/b][/h1]
+
+1- Subscribe or download manually (Recommended)
+2- Launch the game and wait to see 'Completed'
+3- Restart the game and you can see the mutators in your list
+
+[h1][b][u]Class Names[/u][/b][/h1]
+
+- Mut: KFAreYouVIP.KFAreYouVIP
+
+[h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
+
+You can find it under 'Whitelisted' folder named 'KF-KFAreYouVIP-v1.0'
+
+MEGA Link: https://mega DOT nz/folder/YDoEmKiC#s6FGAtgh40-TvB4bHsLaMQ
