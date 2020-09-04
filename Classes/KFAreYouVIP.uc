@@ -17,6 +17,7 @@ var bool DEBUG;
 var string VIP;
 var string Donator;
 var string Godlike;
+var PlayerController PC;
 
 // Colors from Config
 struct ColorRecord
@@ -31,7 +32,7 @@ var() config array<ColorRecord> ColorList; // Color list
 struct SP
 {
   var config string PName; // PlayerName, won't be checked
-  var config string PID; // Steam ID, will always be checked
+  var config string SteamID; // Steam ID, will always be checked
   var config string Color; // e.g. "%w" Gives White - "%g" Gives Green, custom for any player to change their NAME Color
   var config bool   isVIP; // Mark Player as VIP
   var config string sVIP; // Give Custom VIP Text
@@ -60,23 +61,17 @@ function PostBeginPlay()
     MutLog("-----|| DEBUG - VipText: " $VIP$ " ||-----");
     MutLog("-----|| DEBUG - Donator: " $Donator$ " ||-----");
     MutLog("-----|| DEBUG - Godlike: " $Godlike$ " ||-----");
+    MutLog("-----|| DEBUG - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
   }
-
-  // TO-DO Complete this to show player name who sees Fleshpounds and Scrakes first
-  // MutLog("-----|| Changing SC & FP Controller ||-----");
-  // class'ZombieFleshpound'.Default.ControllerClass = Class'FPCustomController';
-  // class'ZombieScrake'.Default.ControllerClass = Class'SCCustomController';
-
-  SetTimer( 1, false);
 }
 
 static function FillPlayInfo(PlayInfo PlayInfo)
 {
   Super.FillPlayInfo(PlayInfo);
-  PlayInfo.AddSetting("KFAreYouVIP", "sVIPText", "VIP Text", 0, 0, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "sDonatorText", "Donator Text", 0, 0, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "sGodLikeText", "Godlike Text", 0, 0, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "bDEBUG", "Debug", 0, 0, "check");
+  PlayInfo.AddSetting("KFAreYouVIP", "sVIPText", "VIP Text", 0, 1, "text");
+  PlayInfo.AddSetting("KFAreYouVIP", "sDonatorText", "Donator Text", 0, 2, "text");
+  PlayInfo.AddSetting("KFAreYouVIP", "sGodLikeText", "Godlike Text", 0, 3, "text");
+  PlayInfo.AddSetting("KFAreYouVIP", "bDEBUG", "Debug", 0, 4, "check");
 }
 
 static function string GetDescriptionText(string SettingName)
@@ -96,6 +91,15 @@ static function string GetDescriptionText(string SettingName)
 	}
 }
 
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
+	if (Other.IsA('PlayerController'))
+  {
+    PC = PlayerController(Other);
+    SetTimer(1, false);
+  }
+	return true;
+}
+
 simulated function TimeStampLog(coerce string s)
 {
   log("["$Level.TimeSeconds$"s]" @ s, 'AreYouVIP');
@@ -106,31 +110,17 @@ simulated function MutLog(string s)
   log(s, 'AreYouVIP');
 }
 
-// To-DO Research how to detect Login events, or player join event
-// to trigger the timer
 function Timer()
 {
-  local int i;
-  local string tmpVIP, tmpDonator, tmpGodlike;
-  local array<SP> tmpSpecialPlayers;
-
-  tmpVIP = VIP;
-  tmpDonator = Donator;
-  tmpGodlike = Godlike;
-  for(i=0; i<SpecialPlayers.Length; i=i++){
-    tmpSpecialPlayers[i] = SpecialPlayers[i];
-  }
-
-  ApplySpecialPlayerNames(tmpVIP, tmpDonator, tmpGodlike, tmpSpecialPlayers);
+  ApplySpecialPlayerNames(PC, VIP, Donator, GodLike, SpecialPlayers);
 }
 
-// Get Player Steam HASH, Compare with Config HASH, If found, Apply New Name
-function array<string> ApplySpecialPlayerNames(string VipText, string DonatorText, string GodLikeText, array<SP> ConfigPlayers)
+// Get Player SteamID, Compare with ConfigID, then Apply New Name
+function ApplySpecialPlayerNames(PlayerController Client, string VipText, string DonatorText, string GodLikeText, array<SP> ConfigPlayers)
 {
   local int i, j;
   local string PN, PID, NewName;
   local array<string> PlayerIDs;
-  local PlayerController PC;
 
   local string PName;
   local string ConfigPID;
@@ -142,7 +132,7 @@ function array<string> ApplySpecialPlayerNames(string VipText, string DonatorTex
   local bool   isGodLike;
   local string sGodLike;
 
-  foreach DynamicActors(class'PlayerController', PC){
+  // foreach DynamicActors(class'PlayerController', PC){
     PN = PC.PlayerReplicationInfo.GetHumanReadableName();
     PID = PC.GetPlayerIDHash();
     if (PN != "WebAdmin" || PC.PlayerReplicationInfo.PlayerID != 0){
@@ -153,7 +143,7 @@ function array<string> ApplySpecialPlayerNames(string VipText, string DonatorTex
         }
         for(j=0; j<ConfigPlayers.Length; j++){
           PName = ConfigPlayers[j].PName;
-          ConfigPID = ConfigPlayers[j].PID;
+          ConfigPID = ConfigPlayers[j].SteamID;
           Color = ConfigPlayers[j].Color;
           isVIP = ConfigPlayers[j].isVIP;
           sVIP = ConfigPlayers[j].sVIP;
@@ -188,17 +178,16 @@ function array<string> ApplySpecialPlayerNames(string VipText, string DonatorTex
                 NewName $= Godlike;
               }
           }
-          SetColor(NewName);
           if(DEBUG){
             MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
           }
-          PC.PlayerReplicationInfo.SetPlayerName(NewName);
+          SetColor(NewName);
+          Client.PlayerReplicationInfo.SetPlayerName(NewName);
           break;
           }
         }
     }
-  }
-  return PlayerIDs;
+   // }
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -244,7 +233,4 @@ defaultproperties
   GroupName="KF-AreYouVIP"
   FriendlyName="Are You VIP - v1.0"
   Description="Checks for VIP Players on your server (Or Donators); By Vel-San"
-  bAlwaysRelevant=True
-  RemoteRole=ROLE_SimulatedProxy
-  bNetNotify=True
 }
