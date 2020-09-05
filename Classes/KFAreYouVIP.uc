@@ -132,62 +132,64 @@ function ApplySpecialPlayerNames(PlayerController Client, string VipText, string
   local bool   isGodLike;
   local string sGodLike;
 
-  // foreach DynamicActors(class'PlayerController', PC){
-    PN = PC.PlayerReplicationInfo.GetHumanReadableName();
-    PID = PC.GetPlayerIDHash();
-    if (PN != "WebAdmin" || PC.PlayerReplicationInfo.PlayerID != 0){
-        PlayerIDs[i] = PID;
-        i = i + 1;
+  PN = PC.PlayerReplicationInfo.GetHumanReadableName();
+  PID = PC.GetPlayerIDHash();
+  if (PN != "WebAdmin" || PC.PlayerReplicationInfo.PlayerID != 0){
+      PlayerIDs[i] = PID;
+      i = i + 1;
+      if(DEBUG){
+          MutLog("-----|| DEBUG - Player [" $i$ "] Name: " $PN$ " | ID: " $PID$ " ||-----");
+      }
+      for(j=0; j<ConfigPlayers.Length; j++){
+        PName = ConfigPlayers[j].PName;
+        ConfigPID = ConfigPlayers[j].SteamID;
+        Color = ConfigPlayers[j].Color;
+        isVIP = ConfigPlayers[j].isVIP;
+        sVIP = ConfigPlayers[j].sVIP;
+        isDonator = ConfigPlayers[j].isDonator;
+        sDonator = ConfigPlayers[j].sDonator;
+        isGodLike = ConfigPlayers[j].isGodLike;
+        sGodLike = ConfigPlayers[j].sGodLike;
         if(DEBUG){
-            MutLog("-----|| DEBUG - Player [" $i$ "] Name: " $PN$ " | ID: " $PID$ " ||-----");
+          MutLog("-----|| DEBUG - Found Player In Config: " $PName$ " | " $ConfigPID$ " ||-----");
         }
-        for(j=0; j<ConfigPlayers.Length; j++){
-          PName = ConfigPlayers[j].PName;
-          ConfigPID = ConfigPlayers[j].SteamID;
-          Color = ConfigPlayers[j].Color;
-          isVIP = ConfigPlayers[j].isVIP;
-          sVIP = ConfigPlayers[j].sVIP;
-          isDonator = ConfigPlayers[j].isDonator;
-          sDonator = ConfigPlayers[j].sDonator;
-          isGodLike = ConfigPlayers[j].isGodLike;
-          sGodLike = ConfigPlayers[j].sGodLike;
-          if(DEBUG){
-            MutLog("-----|| DEBUG - Found Player In Config: " $PName$ " | " $ConfigPID$ " ||-----");
-          }
-          if (ConfigPID == PID){
-          NewName $= Color;
-          NewName $= PN;
-          if (isVIP){
-              if ( sVIP != "" ){
-                  NewName $= sVIP;
-              } else{
-                NewName $= VipText;
-              }
-          }
-          if (isDonator){
-              if ( sDonator != "" ){
-                  NewName $= sDonator;
-              } else{
-                NewName $= DonatorText;
-              }
-          }
-          if (isGodLike){
-              if ( sGodLike != "" ){
-                  NewName $= sGodLike;
-              } else{
-                NewName $= Godlike;
-              }
-          }
-          if(DEBUG){
-            MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
-          }
-          SetColor(NewName);
-          Client.PlayerReplicationInfo.SetPlayerName(NewName);
-          break;
-          }
+        if (ConfigPID == PID){
+         if (Left(PN, 1) == "["){
+            // Removing [XXX] From CountryTags
+            PN = Right(PN, Len(PN) - 6);
         }
-    }
-   // }
+        NewName $= Color;
+        NewName $= PN;
+        if (isVIP){
+            if ( sVIP != "" ){
+                NewName $= sVIP;
+            } else{
+              NewName $= VipText;
+            }
+        }
+        if (isDonator){
+            if ( sDonator != "" ){
+                NewName $= sDonator;
+            } else{
+              NewName $= DonatorText;
+            }
+        }
+        if (isGodLike){
+            if ( sGodLike != "" ){
+                NewName $= sGodLike;
+            } else{
+              NewName $= Godlike;
+            }
+        }
+        if(DEBUG){
+          MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
+        }
+        SetColor(NewName);
+        Client.PlayerReplicationInfo.SetPlayerName(NewName);
+        break;
+        }
+      }
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -231,6 +233,6 @@ defaultproperties
 {
 	// Mut Vars
   GroupName="KF-AreYouVIP"
-  FriendlyName="Are You VIP - v1.0"
-  Description="Checks for VIP Players on your server (Or Donators); By Vel-San"
+  FriendlyName="Are You VIP - v1.1"
+  Description="Mark special players (ViP, Donators or Godlike) on your server; By Vel-San"
 }

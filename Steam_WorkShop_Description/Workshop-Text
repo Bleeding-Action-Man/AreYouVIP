@@ -31,7 +31,7 @@ sGodLikeText=%w - [%vGOD%w]
 # Add VIP, Donator or GodLike Players here, follow the exact format | Color is for the Player Name as a whole
 # It's best to have only 2 options active at a time, or the scoreboard will act crazy with the fonts and trying to squeeze everything
 # If you enable 1 option and the text is huge, try to make the label smaller e.g. 3 letters, like VIP
-aSpecialPlayers=(PName="Vel-San",SteamID="76561198122568951",Color="%g",isVIP=true,sVIP="%w - [%bVIP%w]",isDonator=true,sDonator="%w - [%g$$$%w]",isGodLike=false,sGodLike="")
+aSpecialPlayers=(PName="Vel-San",SteamID="76561198122568951",Color="%g",isVIP=true,sVIP="%w - [%bViP%w]",isDonator=false,sDonator="%w - [%gD$SH%w]",isGodLike=false,sGodLike="")
 # You can add more colors by using the same format of the below ColorList
 ColorList=(ColorName="Red",ColorTag="%r",Color=(B=0,G=0,R=200,A=0))
 ColorList=(ColorName="Orange",ColorTag="%o",Color=(B=0,G=127,R=255,A=0))
@@ -62,6 +62,6 @@ bDebug=True
 
 [h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
 
-You can find it under 'Whitelisted' folder named 'KF-KFAreYouVIP-v1.0'
+You can find it under 'Whitelisted' folder named 'KF-KFAreYouVIP-v1.1'
 
 MEGA Link: https://mega DOT nz/folder/YDoEmKiC#s6FGAtgh40-TvB4bHsLaMQ
