@@ -91,25 +91,6 @@ static function string GetDescriptionText(string SettingName)
 	}
 }
 
-function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
-	if (Other.IsA('PlayerController'))
-  {
-    PC = PlayerController(Other);
-    SetTimer(1, false);
-  }
-	return true;
-}
-
-simulated function TimeStampLog(coerce string s)
-{
-  log("["$Level.TimeSeconds$"s]" @ s, 'AreYouVIP');
-}
-
-simulated function MutLog(string s)
-{
-  log(s, 'AreYouVIP');
-}
-
 function Timer()
 {
   ApplySpecialPlayerNames(PC, VIP, Donator, GodLike, SpecialPlayers);
@@ -190,6 +171,25 @@ function ApplySpecialPlayerNames(PlayerController Client, string VipText, string
         }
       }
   }
+}
+
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
+	if (Other.IsA('PlayerController'))
+  {
+    PC = PlayerController(Other);
+    SetTimer(1, false);
+  }
+	return true;
+}
+
+simulated function TimeStampLog(coerce string s)
+{
+  log("["$Level.TimeSeconds$"s]" @ s, 'AreYouVIP');
+}
+
+simulated function MutLog(string s)
+{
+  log(s, 'AreYouVIP');
 }
 
 /////////////////////////////////////////////////////////////////////////
