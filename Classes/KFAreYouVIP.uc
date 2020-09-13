@@ -12,12 +12,10 @@ var() config string sVIPText; // Default VIP Text
 var() config string sDonatorText; // Default Donator Text
 var() config string sGodLikeText; // Default Godlike Text
 
-
 var bool DEBUG;
 var string VIP;
 var string Donator;
 var string Godlike;
-var PlayerController PC;
 
 // Colors from Config
 struct ColorRecord
@@ -91,95 +89,17 @@ static function string GetDescriptionText(string SettingName)
 	}
 }
 
-function Timer()
-{
-  ApplySpecialPlayerNames(PC, VIP, Donator, GodLike, SpecialPlayers);
-}
-
-// Get Player SteamID, Compare with ConfigID, then Apply New Name
-function ApplySpecialPlayerNames(PlayerController Client, string VipText, string DonatorText, string GodLikeText, array<SP> ConfigPlayers)
-{
-  local int i, j;
-  local string PN, PID, NewName;
-  local array<string> PlayerIDs;
-
-  local string PName;
-  local string ConfigPID;
-  local string Color;
-  local bool   isVIP;
-  local string sVIP;
-  local bool   isDonator;
-  local string sDonator;
-  local bool   isGodLike;
-  local string sGodLike;
-
-  PN = PC.PlayerReplicationInfo.GetHumanReadableName();
-  PID = PC.GetPlayerIDHash();
-  if (PN != "WebAdmin" || PC.PlayerReplicationInfo.PlayerID != 0){
-      PlayerIDs[i] = PID;
-      i = i + 1;
-      if(DEBUG){
-          MutLog("-----|| DEBUG - Player [" $i$ "] Name: " $PN$ " | ID: " $PID$ " ||-----");
-      }
-      for(j=0; j<ConfigPlayers.Length; j++){
-        PName = ConfigPlayers[j].PName;
-        ConfigPID = ConfigPlayers[j].SteamID;
-        Color = ConfigPlayers[j].Color;
-        isVIP = ConfigPlayers[j].isVIP;
-        sVIP = ConfigPlayers[j].sVIP;
-        isDonator = ConfigPlayers[j].isDonator;
-        sDonator = ConfigPlayers[j].sDonator;
-        isGodLike = ConfigPlayers[j].isGodLike;
-        sGodLike = ConfigPlayers[j].sGodLike;
-        if(DEBUG){
-          MutLog("-----|| DEBUG - Found Player In Config: " $PName$ " | " $ConfigPID$ " ||-----");
-        }
-        if (ConfigPID == PID){
-         if (Left(PN, 1) == "["){
-            // Removing [XXX] From CountryTags
-            PN = Right(PN, Len(PN) - 6);
-        }
-        NewName $= Color;
-        NewName $= PN;
-        if (isVIP){
-            if ( sVIP != "" ){
-                NewName $= sVIP;
-            } else{
-              NewName $= VipText;
-            }
-        }
-        if (isDonator){
-            if ( sDonator != "" ){
-                NewName $= sDonator;
-            } else{
-              NewName $= DonatorText;
-            }
-        }
-        if (isGodLike){
-            if ( sGodLike != "" ){
-                NewName $= sGodLike;
-            } else{
-              NewName $= Godlike;
-            }
-        }
-        if(DEBUG){
-          MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
-        }
-        SetColor(NewName);
-        Client.PlayerReplicationInfo.SetPlayerName(NewName);
-        break;
-        }
-      }
-  }
-}
-
 function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
 	if (Other.IsA('PlayerController'))
-  {
-    PC = PlayerController(Other);
-    SetTimer(1, false);
-  }
+		AddHandler(PlayerController(Other));
 	return true;
+}
+
+final function AddHandler(PlayerController PC) {
+	local ClientHandler C;
+	C = Spawn(class'ClientHandler');
+	C.Client = PC;
+	C.MasterHandler = self;
 }
 
 simulated function TimeStampLog(coerce string s)
@@ -228,11 +148,10 @@ function string RemoveColor(string S)
 }
 //////////////////////////////////////////////////////////////////////
 
-
 defaultproperties
 {
 	// Mut Vars
   GroupName="KF-AreYouVIP"
-  FriendlyName="Are You VIP - v1.1"
+  FriendlyName="Are You VIP - v1.2"
   Description="Mark special players (ViP, Donators or Godlike) on your server; By Vel-San"
 }
