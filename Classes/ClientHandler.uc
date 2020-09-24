@@ -90,6 +90,7 @@ final function string ApplySpecialPlayerNames()
           MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
         }
         MasterHandler.SetColor(NewName);
+        return NewName;
     }
     else{
       return PN;
