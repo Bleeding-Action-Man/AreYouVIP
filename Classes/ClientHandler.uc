@@ -14,18 +14,18 @@ function Timer() {
 		return;
 	}
 	if (Client.PlayerReplicationInfo != none && Client.PlayerReplicationInfo.PlayerName != OldClientName) {
-		ApplySpecialPlayerNames(NewClientName);
-        OldClientName = NewClientName;
+		NewClientName = ApplySpecialPlayerNames();
+    OldClientName = NewClientName;
 		Client.PlayerReplicationInfo.PlayerName = OldClientName;
 		Client.PlayerReplicationInfo.NetUpdateTime = Level.TimeSeconds - 1;
 	}
 }
 
 // Apply New Name if player found in Config
-final function ApplySpecialPlayerNames(out string NewName)
+final function string ApplySpecialPlayerNames()
 {
   local int j;
-  local string PN, PID;
+  local string PN, PID, NewName;
 
   local string PName;
   local string ConfigPID;
@@ -90,6 +90,9 @@ final function ApplySpecialPlayerNames(out string NewName)
           MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
         }
         MasterHandler.SetColor(NewName);
+    }
+    else{
+      return PN;
     }
   }
 }
