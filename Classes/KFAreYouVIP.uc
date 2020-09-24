@@ -152,6 +152,6 @@ defaultproperties
 {
 	// Mut Vars
   GroupName="KF-AreYouVIP"
-  FriendlyName="Are You VIP - v1.2"
+  FriendlyName="Are You VIP - v1.3"
   Description="Mark special players (ViP, Donators or Godlike) on your server; By Vel-San"
 }
