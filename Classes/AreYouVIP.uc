@@ -5,7 +5,7 @@
 // https://steamcommunity.com/id/Vel-San/
 //=============================================================================
 
-Class KFAreYouVIP extends Mutator config(KFAreYouVIP);
+Class AreYouVIP extends Mutator config(AreYouVIP_Config);
 
 var config bool bDebug;
 // Default VIP Text, in case none is specified for a special player
@@ -50,26 +50,6 @@ function PostBeginPlay()
   {
     MutLog("-----|| Debug - VipText: " $VIP$ " ||-----");
     MutLog("-----|| Debug - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
-  }
-}
-
-static function FillPlayInfo(PlayInfo PlayInfo)
-{
-  Super.FillPlayInfo(PlayInfo);
-  PlayInfo.AddSetting("KFAreYouVIP", "sVIPText", "VIP Text", 0, 1, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "bDebug", "Debug", 0, 4, "check");
-}
-
-static function string GetDescriptionText(string SettingName)
-{
-  switch(SettingName)
-  {
-    case "sVIPText":
-      return "Text to show next to player names in case they are VIP";
-    case "bDebug":
-      return "Shows some Debugging messages in the LOG. Keep OFF unless you know what you are doing!";
-    default:
-      return Super.GetDescriptionText(SettingName);
   }
 }
 

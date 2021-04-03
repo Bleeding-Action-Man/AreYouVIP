@@ -1,7 +1,7 @@
 class ClientHandler extends Info;
 
 var PlayerController Client;
-var KFAreYouVIP MasterHandler;
+var AreYouVIP MasterHandler;
 var string NewClientName, OldClientName;
 
 function PostBeginPlay()
@@ -15,6 +15,7 @@ function Timer() {
     Destroy();
     return;
   }
+  // TODO: Check for spectator
   if (Client.PlayerReplicationInfo != none && Client.PlayerReplicationInfo.PlayerName != OldClientName)
   {
     NewClientName = ApplySpecialPlayerNames();
