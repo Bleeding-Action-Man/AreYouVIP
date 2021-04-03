@@ -15,7 +15,8 @@ function Timer() {
   Destroy();
   return;
   }
-  // TODO: Check for spectator
+
+  // Check for spectators.. whoever joins as spec joins with no name aparently :/
   if (Client.PlayerReplicationInfo != none && Client.PlayerReplicationInfo.PlayerName != OldClientName)
   {
   NewClientName = ApplySpecialPlayerNames();
