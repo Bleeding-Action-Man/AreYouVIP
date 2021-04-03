@@ -51,11 +51,13 @@ function PostBeginPlay()
   Donator = sDonatorText;
   Godlike = sGodLikeText;
   DEBUG = bDEBUG;
-  for(i=0; i<aSpecialPlayers.Length; i=i++){
+  for(i=0; i<aSpecialPlayers.Length; i=i++)
+  {
     SpecialPlayers[i] = aSpecialPlayers[i];
   }
 
-  if(DEBUG){
+  if(DEBUG)
+  {
     MutLog("-----|| DEBUG - VipText: " $VIP$ " ||-----");
     MutLog("-----|| DEBUG - Donator: " $Donator$ " ||-----");
     MutLog("-----|| DEBUG - Godlike: " $Godlike$ " ||-----");
@@ -74,32 +76,33 @@ static function FillPlayInfo(PlayInfo PlayInfo)
 
 static function string GetDescriptionText(string SettingName)
 {
-	switch(SettingName)
-	{
-  case "sVIPText":
-		return "Text to show next to player names in case they are VIP";
-  case "sDonatorText":
-		return "Text to show next to player names in case they are Donators";
-  case "sGodLikeText":
-		return "Text to show next to player names in case they are GodLike";
-	case "bDEBUG":
-		return "Shows some Debugging messages in the LOG. Keep OFF unless you know what you are doing!";
-  default:
-		return Super.GetDescriptionText(SettingName);
-	}
+  switch(SettingName)
+  {
+    case "sVIPText":
+      return "Text to show next to player names in case they are VIP";
+    case "sDonatorText":
+      return "Text to show next to player names in case they are Donators";
+    case "sGodLikeText":
+      return "Text to show next to player names in case they are GodLike";
+    case "bDEBUG":
+      return "Shows some Debugging messages in the LOG. Keep OFF unless you know what you are doing!";
+    default:
+      return Super.GetDescriptionText(SettingName);
+  }
 }
 
-function bool CheckReplacement(Actor Other, out byte bSuperRelevant) {
-	if (Other.IsA('PlayerController'))
-		AddHandler(PlayerController(Other));
-	return true;
+function bool CheckReplacement(Actor Other, out byte bSuperRelevant)
+{
+  if (Other.IsA('PlayerController')) AddHandler(PlayerController(Other));
+  return true;
 }
 
-final function AddHandler(PlayerController PC) {
-	local ClientHandler C;
-	C = Spawn(class'ClientHandler');
-	C.Client = PC;
-	C.MasterHandler = self;
+final function AddHandler(PlayerController PC)
+{
+  local ClientHandler C;
+  C = Spawn(class'ClientHandler');
+  C.Client = PC;
+  C.MasterHandler = self;
 }
 
 simulated function TimeStampLog(coerce string s)
@@ -150,7 +153,7 @@ function string RemoveColor(string S)
 
 defaultproperties
 {
-	// Mut Vars
+  // Mut Vars
   GroupName="KF-AreYouVIP"
   FriendlyName="Are You VIP - v1.3"
   Description="Mark special players (ViP, Donators or Godlike) on your server; By Vel-San"
