@@ -7,15 +7,12 @@
 
 Class KFAreYouVIP extends Mutator config(KFAreYouVIP);
 
-var() config bool bDEBUG;
-var() config string sVIPText; // Default VIP Text
-var() config string sDonatorText; // Default Donator Text
-var() config string sGodLikeText; // Default Godlike Text
+var config bool bDebug;
+// Default VIP Text, in case none is specified for a special player
+var config string sVIPText;
 
-var bool DEBUG;
+// Mut Vars
 var string VIP;
-var string Donator;
-var string Godlike;
 
 // Colors from Config
 struct ColorRecord
@@ -34,12 +31,8 @@ struct SP
   var config string Color; // e.g. "%w" Gives White - "%g" Gives Green, custom for any player to change their NAME Color
   var config bool   isVIP; // Mark Player as VIP
   var config string sVIP; // Give Custom VIP Text
-  var config bool   isDonator; // Mark Player as Donator
-  var config string sDonator; // Give custom Donator Text
-  var config bool   isGodLike; // Mark Player as GodLike ( Ultra Special )
-  var config string sGodLike; // Give custom Godlike Text ( Ultra Special )
 };
-var() config array<SP> aSpecialPlayers; // PlayersList to be declared in the Config
+var config array<SP> aSpecialPlayers; // PlayersList to be declared in the Config
 var array<SP> SpecialPlayers; // PlayersList to be declared in the Config
 
 
@@ -48,20 +41,15 @@ function PostBeginPlay()
   local int i;
 
   VIP = sVIPText;
-  Donator = sDonatorText;
-  Godlike = sGodLikeText;
-  DEBUG = bDEBUG;
   for(i=0; i<aSpecialPlayers.Length; i=i++)
   {
     SpecialPlayers[i] = aSpecialPlayers[i];
   }
 
-  if(DEBUG)
+  if(bDebug)
   {
-    MutLog("-----|| DEBUG - VipText: " $VIP$ " ||-----");
-    MutLog("-----|| DEBUG - Donator: " $Donator$ " ||-----");
-    MutLog("-----|| DEBUG - Godlike: " $Godlike$ " ||-----");
-    MutLog("-----|| DEBUG - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
+    MutLog("-----|| Debug - VipText: " $VIP$ " ||-----");
+    MutLog("-----|| Debug - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
   }
 }
 
@@ -69,9 +57,7 @@ static function FillPlayInfo(PlayInfo PlayInfo)
 {
   Super.FillPlayInfo(PlayInfo);
   PlayInfo.AddSetting("KFAreYouVIP", "sVIPText", "VIP Text", 0, 1, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "sDonatorText", "Donator Text", 0, 2, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "sGodLikeText", "Godlike Text", 0, 3, "text");
-  PlayInfo.AddSetting("KFAreYouVIP", "bDEBUG", "Debug", 0, 4, "check");
+  PlayInfo.AddSetting("KFAreYouVIP", "bDebug", "Debug", 0, 4, "check");
 }
 
 static function string GetDescriptionText(string SettingName)
@@ -80,11 +66,7 @@ static function string GetDescriptionText(string SettingName)
   {
     case "sVIPText":
       return "Text to show next to player names in case they are VIP";
-    case "sDonatorText":
-      return "Text to show next to player names in case they are Donators";
-    case "sGodLikeText":
-      return "Text to show next to player names in case they are GodLike";
-    case "bDEBUG":
+    case "bDebug":
       return "Shows some Debugging messages in the LOG. Keep OFF unless you know what you are doing!";
     default:
       return Super.GetDescriptionText(SettingName);
@@ -155,6 +137,6 @@ defaultproperties
 {
   // Mut Vars
   GroupName="KF-AreYouVIP"
-  FriendlyName="Are You VIP - v1.3"
-  Description="Mark special players (ViP, Donators or Godlike) on your server; By Vel-San"
+  FriendlyName="Are You VIP - v1.4"
+  Description="Mark special players (ViP) on your server; By Vel-San"
 }

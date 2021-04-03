@@ -33,22 +33,16 @@ final function string ApplySpecialPlayerNames()
   local string PName;
   local string ConfigPID;
   local string Color;
-  local bool   isVIP;
+  local bool isVIP;
   local string sVIP;
-  local bool   isDonator;
-  local string sDonator;
-  local bool   isGodLike;
-  local string sGodLike;
 
-  if (NetConnection(Client.Player) == none)
-  {
-    Destroy();
-  }
+  if (NetConnection(Client.Player) == none) Destroy();
+
   PN = Client.PlayerReplicationInfo.PlayerName;
   PID = Client.GetPlayerIDHash();
   if (PN != "WebAdmin" || Client.PlayerReplicationInfo.PlayerID != 0)
   {
-    if(MasterHandler.DEBUG) MutLog("-----|| DEBUG - Checking Player: " $PN$ " | ID: " $PID$ " ||-----");
+    if(MasterHandler.bDebug) MutLog("-----|| Debug - Checking Player: " $PN$ " | ID: " $PID$ " ||-----");
 
     if(FindSteamID(j, PID))
     {
@@ -57,58 +51,28 @@ final function string ApplySpecialPlayerNames()
       Color = MasterHandler.SpecialPlayers[j].Color;
       isVIP = MasterHandler.SpecialPlayers[j].isVIP;
       sVIP = MasterHandler.SpecialPlayers[j].sVIP;
-      isDonator = MasterHandler.SpecialPlayers[j].isDonator;
-      sDonator = MasterHandler.SpecialPlayers[j].sDonator;
-      isGodLike = MasterHandler.SpecialPlayers[j].isGodLike;
-      sGodLike = MasterHandler.SpecialPlayers[j].sGodLike;
-      if(MasterHandler.DEBUG)
-      {
-        MutLog("-----|| DEBUG - Found Player In Config: " $PName$ " | " $ConfigPID$ " ||-----");
-      }
+
+      if(MasterHandler.bDebug) MutLog("-----|| Debug - Found Player In Config: " $PName$ " | " $ConfigPID$ " ||-----");
+
       // TODO: Make this custom or a config variable
       // With length of int to be removed, instead of hardcoded values
-      if (Left(PN, 1) == "[")
-      {
-        // Removing [XXX] From CountryTags
-        PN = Right(PN, Len(PN) - 6);
-      }
+      // Removing [XXX] From CountryTags
+      if (Left(PN, 1) == "[") PN = Right(PN, Len(PN) - 6);
+
       NewName $= Color;
       NewName $= PN;
+
       if (isVIP)
       {
-        if ( sVIP != "" )
-        {
-          NewName $= sVIP;
-        }
-        else
-        {
-          NewName $= MasterHandler.VIP;
-        }
+        if ( sVIP != "" ) NewName $= sVIP;
+        else NewName $= MasterHandler.VIP;
       }
-      if (isDonator)
-      {
-        if ( sDonator != "" )
-        {
-          NewName $= sDonator;
-        }
-        else
-        {
-          NewName $= MasterHandler.Donator;
-        }
-      }
-      if (isGodLike)
-      {
-        if ( sGodLike != "" ) NewName $= sGodLike;
-        else NewName $= MasterHandler.Godlike;
-      }
-      if(MasterHandler.DEBUG) MutLog("-----|| DEBUG - New Player Name: " $NewName$ " ||-----");
+
+      if(MasterHandler.bDebug) MutLog("-----|| Debug - New Player Name: " $NewName$ " ||-----");
       MasterHandler.SetColor(NewName);
       return NewName;
     }
-    else
-    {
-      return PN;
-    }
+    else return PN;
   }
 }
 
@@ -122,7 +86,7 @@ final function bool FindSteamID(out int i, string ID){
   return false;
 }
 
-simulated function MutLog(string s)
+function MutLog(string s)
 {
   log(s, 'AreYouVIP');
 }
