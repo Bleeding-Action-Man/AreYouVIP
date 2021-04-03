@@ -1,5 +1,4 @@
-Mark players as VIP, Donators or GodLike in your server. Shows next to their names in the Scoreboard! Best used in cooporation with a Discord server
-to transfer same 'Roles' to in-game view!
+Mark players as VIP in your server. Shows next to their names in the Scoreboard!
 
 - Unlimited number of Players to add
 - Server Side, players don't have to download anything at all
@@ -7,11 +6,12 @@ to transfer same 'Roles' to in-game view!
 - Customizable Labels
 - Customizable Label Colors
 
-&
+[h1][b][u]Whitelist Status[/u][/b][/h1]
 
-- Mut is [b]WHITELISTED[/b] (On Dedicated Servers | Listen Server is probably whitelisted for everyone except the Host)
+- Yes | Dedicated
+- Yes | Listen Servers (Except the host)
 
-NOTE:
+[h1][b][u]Credits[/u][/b][/h1]
 
 - NikC for some parts of the code
 
@@ -22,16 +22,23 @@ NOTE:
 [h1][b][u]Sample Config[/u][/b][/h1]
 
 [code]
-[KFAreYouVIP.KFAreYouVIP]
+[AreYouVIP.AreYouVIP]
 # Replace %g %w with any other color you want from the list below
 # These are default values. To override these, use the below 'SpecialPlayers' List section for them
 sVIPText=%w | %bViP%w
-sDonatorText=%w | %g$$$%w
-sGodLikeText=%w | %vGoD%w
-# Add VIP, Donator or GodLike Players here, follow the exact format | Color is for the Player Name as a whole
-# It's best to have only 2 options active at a time, or the scoreboard will act crazy with the fonts and trying to squeeze everything
-# If you enable 1 option and the text is huge, try to make the label smaller e.g. 3 letters, like VIP
-aSpecialPlayers=(PName="Vel-San",steamID="76561198122568951",Color="%t",isVIP=True,sVIP="%w | %bViP",isDonator=False,sDonator="",isGodLike=True,sGodLike="%w | %gGoD%w")
+# Set this ABOVE 0 in case you have CtryTags mutator installed
+# Set this to 0 in case you do not have CtryTags installed !!! IMPORTANT !!!
+# e.g. if your tag is like this: [XXX] NameHere, you need to set this
+# to 6 because it also counts the space between the tag + the player name
+# Don't worry, your CtryTag will stay, but this is very important to do
+# to avoid duplicate tags!
+# Default is 6 because default tag is [XXX]
+iCutName=6
+# Add VIP Players here, follow the exact format | Color is for the Player Name as a whole
+# It's best to have only 2 options active at a time, or the scoreboard will
+# act crazy with the fonts and trying to squeeze everything
+# Try to make the label smaller e.g. 3 letters, like VIP
+aSpecialPlayers=(PName="Vel-San",steamID="76561198122568951",Color="%t",isVIP=True,sVIP="%w | %bViP")
 # You can add more colors by using the same format of the below ColorList
 ColorList=(ColorName="Red",ColorTag="%r",Color=(B=0,G=0,R=200,A=0))
 ColorList=(ColorName="Orange",ColorTag="%o",Color=(B=0,G=127,R=255,A=0))
@@ -47,9 +54,9 @@ bDebug=False
 
 [h1][b][u]File Names[/u][/b][/h1]
 
-- \System\KFAreYouVIP.u
-- \System\KFAreYouVIP.ucl
-- \System\KFAreYouVIP.ini
+- \System\AreYouVIP.u
+- \System\AreYouVIP.ucl
+- \System\AreYouVIP.ini
 
 [h1][b][u]Usage[/u][/b][/h1]
 
@@ -59,10 +66,7 @@ bDebug=False
 
 [h1][b][u]Class Names[/u][/b][/h1]
 
-- Mut: KFAreYouVIP.KFAreYouVIP
+- Mut: AreYouVIP.AreYouVIP
 
 [h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
 
-You can find it under 'Whitelisted' folder named 'KF-KFAreYouVIP-v1.3'
-
-MEGA Link: https://mega DOT nz/folder/YDoEmKiC#s6FGAtgh40-TvB4bHsLaMQ

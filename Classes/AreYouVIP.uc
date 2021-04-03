@@ -10,9 +10,9 @@ Class AreYouVIP extends Mutator config(AreYouVIP_Config);
 var config bool bDebug;
 // Default VIP Text, in case none is specified for a special player
 var config string sVIPText;
-
-// Mut Vars
-var string VIP;
+// Use this in case you have CntryTags installed
+// So you can set e.g. CutName=6 for tag [XXX], so it gets removed when it's duplicated by this mut
+var config int iCutName;
 
 // Colors from Config
 struct ColorRecord
@@ -35,21 +35,19 @@ struct SP
 var config array<SP> aSpecialPlayers; // PlayersList to be declared in the Config
 var array<SP> SpecialPlayers; // PlayersList to be declared in the Config
 
-
 function PostBeginPlay()
 {
   local int i;
 
-  VIP = sVIPText;
   for(i=0; i<aSpecialPlayers.Length; i=i++)
   {
-    SpecialPlayers[i] = aSpecialPlayers[i];
+  SpecialPlayers[i] = aSpecialPlayers[i];
   }
 
   if(bDebug)
   {
-    MutLog("-----|| Debug - VipText: " $VIP$ " ||-----");
-    MutLog("-----|| Debug - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
+  MutLog("-----|| Debug - VipText: " $sVIPText$ " ||-----");
+  MutLog("-----|| Debug - # Of Config Players: " $SpecialPlayers.Length$ " ||-----");
   }
 }
 
@@ -86,10 +84,10 @@ function SetColor(out string Msg)
   local int i;
   for(i=0; i<ColorList.Length; i++)
   {
-    if(ColorList[i].ColorTag!="" && InStr(Msg, ColorList[i].ColorTag)!=-1)
-    {
-      ReplaceText(Msg, ColorList[i].ColorTag, FormatTagToColorCode(ColorList[i].ColorTag, ColorList[i].Color));
-    }
+  if(ColorList[i].ColorTag!="" && InStr(Msg, ColorList[i].ColorTag)!=-1)
+  {
+    ReplaceText(Msg, ColorList[i].ColorTag, FormatTagToColorCode(ColorList[i].ColorTag, ColorList[i].Color));
+  }
   }
 }
 
@@ -106,8 +104,8 @@ function string RemoveColor(string S)
   P=InStr(S,Chr(27));
   While(P>=0)
   {
-    S=Left(S,P)$Mid(S,P+4);
-    P=InStr(S,Chr(27));
+  S=Left(S,P)$Mid(S,P+4);
+  P=InStr(S,Chr(27));
   }
   Return S;
 }
