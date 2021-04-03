@@ -32,13 +32,12 @@ sVIPText=%w | %bViP%w
 # to 6 because it also counts the space between the tag + the player name
 # Don't worry, your CtryTag will stay, but this is very important to do
 # to avoid duplicate tags!
-# Default is 6 because default tag is [XXX]
-iCutName=6
+iCutName=0
 # Add VIP Players here, follow the exact format | Color is for the Player Name as a whole
 # It's best to have only 2 options active at a time, or the scoreboard will
 # act crazy with the fonts and trying to squeeze everything
 # Try to make the label smaller e.g. 3 letters, like VIP
-aSpecialPlayers=(PName="Vel-San",steamID="76561198122568951",Color="%t",isVIP=True,sVIP="%w | %bViP")
+aSpecialPlayers=(PName="Vel-San",steamID="76561198122568951",Color="%t",isVIP=True,sVIP="%w | %ySeraphiM%w")
 # You can add more colors by using the same format of the below ColorList
 ColorList=(ColorName="Red",ColorTag="%r",Color=(B=0,G=0,R=200,A=0))
 ColorList=(ColorName="Orange",ColorTag="%o",Color=(B=0,G=127,R=255,A=0))
